@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Интерактивная коллекция графиков и карт с практическими заметками и ссылками на оригиналы.">
+  <title>Архив визуализаций · Motion</title>
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/motion.css">
+  <script defer src="assets/catalog.js"></script>
+  <script defer src="assets/paint.js"></script>
+  <script defer src="assets/structures.js"></script>
+  <script defer src="assets/networks.js"></script>
+  <script defer src="assets/world.js"></script>
+  <script defer src="assets/maps.js"></script>
+  <script defer src="assets/terrain.js"></script>
+  <script defer src="assets/map-references.js"></script>
+  <script defer src="assets/chart-references.js"></script>
+  <script defer src="assets/map-library.js"></script>
+  <script defer src="assets/census-2020.js"></script>
+  <script defer src="assets/census-comparison.js"></script>
+  <script defer src="assets/gistemp.js"></script>
+  <script defer src="assets/chart-comparison.js"></script>
+  <script defer src="assets/app.js"></script>
+  <script defer src="assets/motion.js"></script>
+</head>
+<body>
+  <div class="mast"><div class="container mast-inner">
+    <a href="#top" class="brand"><span class="brand-mark" aria-hidden="true"></span> Архив визуализаций</a>
+    <nav aria-label="Разделы">
+      <a href="#charts" data-section="charts">Графики</a>
+      <a href="#maps" data-section="maps">Карты</a>
+      <a href="#originals" data-section="originals">Оригиналы</a>
+      <a href="#guide" data-section="guide">Как выбрать</a>
+      <button id="motion-toggle" class="motion-toggle" type="button" aria-pressed="true">Приостановить движение</button>
+      <a class="classic-link" href="../index.html">Классическая версия ↗</a>
+    </nav>
+  </div></div>
+  <main id="top" class="container">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <h1 id="page-title"><span>Данные.</span><em>В движении.</em></h1>
+        <p>Графики, сети и карты, которые можно исследовать. Откройте пример, чтобы проверить, как форма влияет на чтение данных.</p>
+        <div class="hero-actions">
+          <a class="primary" href="#charts" data-section="charts">Смотреть графики <span aria-hidden="true">↓</span></a>
+          <a class="minor" href="#maps" data-section="maps">Перейти к картам <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <button type="button" class="feature" data-open="flows" aria-label="Открыть пример Географические потоки">
+        <canvas id="hero-map" width="800" height="450" aria-hidden="true"></canvas>
+        <span class="feature-caption"><span><strong>Географические потоки</strong><small>Анимированные маршруты</small></span><span class="feature-arrow" aria-hidden="true">↗</span></span>
+      </button>
+    </section>
+    <section id="collection" aria-labelledby="section-title">
+      <div class="section-heading">
+        <div><h2 id="section-title">Галерея графиков</h2><p id="section-note"></p></div>
+        <label id="search-label" class="search"><span aria-hidden="true">⌕</span><input type="search" id="search" placeholder="Поиск по названию или типу" aria-label="Поиск по названию или типу" autocomplete="off"></label>
+      </div>
+      <a id="comparison-feature" class="comparison-feature" href="#map-comparison" data-section="map-comparison" hidden>
+        <span><strong>Одни данные, три карты</strong><small>Население США по переписи 2020 года в трёх представлениях</small></span>
+        <span aria-hidden="true">↗</span>
+      </a>
+      <section id="census-comparison" class="census-comparison" hidden aria-label="Сравнение трёх карт населения">
+        <div class="census-toolbar">
+          <label class="map-theme">Штат или округ <select id="census-state"></select></label>
+          <div class="census-picks" aria-label="Быстрый выбор">
+            <button type="button" data-census-pick="CA">Калифорния</button>
+            <button type="button" data-census-pick="NJ">Нью-Джерси</button>
+            <button type="button" data-census-pick="WY">Вайоминг</button>
+          </div>
+        </div>
+        <div class="census-summary">
+          <strong id="census-active"></strong>
+          <dl>
+            <div><dt>Жителей</dt><dd id="census-people"></dd></div>
+            <div><dt>Площадь суши, км²</dt><dd id="census-sqkm"></dd></div>
+            <div><dt>Жителей на км²</dt><dd id="census-density"></dd></div>
+          </dl>
+        </div>
+        <div class="census-grid">
+          <article>
+            <h3>Хороплет плотности</h3>
+            <p>Цвет показывает число жителей на км² суши.</p>
+            <canvas width="1040" height="585" data-census-map="density" aria-label="Хороплет плотности населения по штатам"></canvas>
+            <div id="density-legend" class="census-legend" aria-label="Жителей на квадратный километр"></div>
+          </article>
+          <article>
+            <h3>Точечная карта</h3>
+            <p>Одна точка соответствует примерно 100&nbsp;000 жителей.</p>
+            <canvas width="1040" height="585" data-census-map="dots" aria-label="Точечная карта населения по штатам"></canvas>
+            <p class="census-note">Точки случайно распределены внутри штата. Их положение условно.</p>
+          </article>
+          <article>
+            <h3>Картограмма Дорлинга</h3>
+            <p>Площадь круга пропорциональна населению штата.</p>
+            <canvas width="1040" height="585" data-census-map="circles" aria-label="Круговая картограмма населения по штатам"></canvas>
+            <p class="census-note">Круги сдвинуты относительно центров штатов, чтобы избежать наложения.</p>
+          </article>
+        </div>
+        <div class="census-reading">
+          <p>Нью-Джерси выделяется на карте плотности, а Калифорния заметнее на картограмме. Выберите штат или коснитесь карты, чтобы подсветить территорию во всех трёх представлениях.</p>
+          <p>48 смежных штатов и округ Колумбия. Численность на 1 апреля 2020 года. Географические карты в равновеликой проекции Альберса.</p>
+          <div class="census-links">
+            <a href="#maps" data-section="maps">← К галерее карт</a>
+            <a href="https://www.census.gov/data/tables/2020/dec/2020-apportionment-data.html" target="_blank" rel="noopener noreferrer">Таблица 2 переписи ↗</a>
+            <a href="https://www.census.gov/geographies/mapping-files/2020/geo/carto-boundary-file.html" target="_blank" rel="noopener noreferrer">Границы и площади ↗</a>
+          </div>
+        </div>
+      </section>
+      <a id="chart-comparison-feature" class="comparison-feature" href="#chart-comparison" data-section="chart-comparison" hidden>
+        <span><strong>Одни данные, три графика</strong><small>Температурные отклонения Земли в трёх представлениях</small></span>
+        <span aria-hidden="true">↗</span>
+      </a>
+      <section id="climate-comparison" class="census-comparison climate-comparison" hidden aria-label="Сравнение трёх графиков температуры">
+        <div class="census-toolbar">
+          <label class="climate-year-control">Год <input id="climate-year" type="range" min="1880" max="2025" value="2024"></label>
+          <div class="census-picks" aria-label="Быстрый выбор года">
+            <button type="button" data-climate-pick="1880">1880</button>
+            <button type="button" data-climate-pick="1980">1980</button>
+            <button type="button" data-climate-pick="2024">2024</button>
+          </div>
+        </div>
+        <div class="census-summary">
+          <strong id="climate-selected"></strong>
+          <dl>
+            <div><dt>Отклонение за год</dt><dd id="climate-annual-value"></dd></div>
+            <div><dt>Базовый период NASA</dt><dd>1951–1980</dd></div>
+          </dl>
+        </div>
+        <div class="census-grid">
+          <article>
+            <h3>Линия по годам</h3>
+            <p>Показывает долгосрочное изменение и отдельные пики.</p>
+            <canvas width="1040" height="585" data-climate-chart="climate-annual" aria-label="Линейный график годовых отклонений"></canvas>
+            <p class="census-note">Годовое значение берётся из столбца J-D таблицы NASA.</p>
+          </article>
+          <article>
+            <h3>Тепловая матрица</h3>
+            <p>Строка — месяц. Столбец — год.</p>
+            <canvas width="1040" height="585" data-climate-chart="climate-calendar" aria-label="Тепловая матрица месячных отклонений"></canvas>
+            <div class="climate-scale" aria-label="Легенда температуры от минус полутора до плюс полутора градусов">
+              <div></div><span>−1,5 °C</span><span>0</span><span>+1,5 °C</span>
+            </div>
+          </article>
+          <article>
+            <h3>Столбцы по месяцам</h3>
+            <p>Показывают отклонение каждого месяца выбранного года.</p>
+            <canvas width="1040" height="585" data-climate-chart="climate-months" aria-label="Отклонения по месяцам выбранного года"></canvas>
+            <p class="census-note">Нулевая линия соответствует среднему за базовый период.</p>
+          </article>
+        </div>
+        <details class="climate-values">
+          <summary>Числовые значения по месяцам</summary>
+          <dl id="climate-monthly-values"></dl>
+        </details>
+        <div class="census-reading">
+          <p>Щёлкните по линии или по столбцу тепловой матрицы, чтобы выбрать год. Отклонения выражены в °C относительно средних значений NASA за 1951–1980 годы. Включены полные годы с 1880 по 2025.</p>
+          <div class="census-links">
+            <a href="#charts" data-section="charts">← К галерее графиков</a>
+            <a href="https://data.giss.nasa.gov/gistemp/" target="_blank" rel="noopener noreferrer">NASA GISTEMP v4 ↗</a>
+            <a href="https://data.giss.nasa.gov/gistemp/tabledata_v4/GLB.Ts+dSST.csv" target="_blank" rel="noopener noreferrer">Исходная таблица ↗</a>
+          </div>
+        </div>
+      </section>
+      <div class="facets">
+        <div id="filters" class="filters" aria-label="Фильтр по типам"></div>
+        <label id="chart-format-wrap" class="map-theme" hidden>
+          <select id="chart-format" aria-label="Формат примеров графиков">
+            <option value="all">Все форматы</option>
+            <option value="published">Опубликованные</option>
+            <option value="demo">Локальные демо</option>
+          </select>
+        </label>
+        <label id="map-theme-wrap" class="map-theme" hidden>Тема <select id="map-theme" aria-label="Тема карт"></select></label>
+      </div>
+      <div id="count" class="count" role="status"></div>
+      <div class="cards" id="cards"></div>
+      <section id="guide" class="guide" hidden aria-label="Руководство по выбору"></section>
+      <noscript><p>Для интерактивной галереи включите JavaScript в браузере.</p></noscript>
+    </section>
+  </main>
+  <footer class="container">
+    <span>Демо и превью открываются без интернета. Внешние оригиналы доступны по ссылкам.</span>
+    <a href="Исследование.md">Заметки и источники ↗</a>
+  </footer>
+  <dialog id="detail" aria-labelledby="detail-title">
+    <article class="detail-wrap">
+      <div class="detail-head">
+        <div><p id="detail-group" class="eyebrow"></p><h2 id="detail-title"></h2></div>
+        <button type="button" id="close" class="icon-button" aria-label="Закрыть пример" title="Закрыть">×</button>
+      </div>
+      <div class="plot" id="plot-wrap">
+        <canvas id="plot" width="1200" height="675" aria-label="Интерактивный график"></canvas>
+        <output id="tooltip" class="tooltip" hidden></output>
+      </div>
+      <div class="controls">
+        <div id="scenarios" class="scenario">
+          <button type="button" id="play">▷ Запустить</button>
+          <label for="phase" id="phase-label">Сценарий</label><input type="range" id="phase" min="0" max="100" value="35">
+        </div>
+        <div id="rotation" class="rotation" hidden aria-label="Вращение глобуса">
+          <button type="button" data-turn="-20,0" aria-label="Повернуть на запад">←</button>
+          <button type="button" data-turn="20,0" aria-label="Повернуть на восток">→</button>
+          <button type="button" data-turn="0,15" aria-label="Повернуть на север">↑</button>
+          <button type="button" data-turn="0,-15" aria-label="Повернуть на юг">↓</button>
+          <button type="button" id="reset">Сбросить</button>
+        </div>
+        <button type="button" id="download">↓ PNG</button>
+      </div>
+      <div class="detail-text"><p id="detail-summary"></p><p id="detail-tip"></p></div>
+      <div class="detail-foot">
+        <span id="detail-hint"></span>
+        <div class="detail-nav"><button type="button" id="prev" aria-label="Предыдущий пример">←</button><button type="button" id="next" aria-label="Следующий пример">→</button></div>
+      </div>
+    </article>
+  </dialog>
+  <dialog id="map-reference" class="reference-dialog" aria-labelledby="ref-title">
+    <article class="detail-wrap">
+      <div class="detail-head">
+        <div><p id="ref-group" class="eyebrow"></p><h2 id="ref-title"></h2></div>
+        <button type="button" id="ref-close" class="icon-button" aria-label="Закрыть превью" title="Закрыть">×</button>
+      </div>
+      <figure class="reference-figure">
+        <img id="ref-image" alt="">
+      </figure>
+      <div class="reference-detail-body">
+        <p id="ref-description"></p>
+        <dl>
+          <div><dt>Автор</dt><dd id="ref-author"></dd></div>
+          <div><dt>Данные</dt><dd id="ref-dataset"></dd></div>
+        </dl>
+      </div>
+      <div class="reference-dialog-footer">
+        <a id="ref-original" class="primary">Открыть оригинал ↗</a>
+        <a id="ref-credit" class="minor">Источник превью ↗</a>
+        <div class="detail-nav"><button type="button" id="ref-prev" aria-label="Предыдущий пример">←</button><button type="button" id="ref-next" aria-label="Следующий пример">→</button></div>
+      </div>
+    </article>
+  </dialog>
+</body>
+</html>
