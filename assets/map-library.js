@@ -4,7 +4,8 @@ const mapThemes = {
   cities: "Города и инфраструктура",
   land: "Рельеф и экосистемы",
   climate: "Атмосфера и океан",
-  history: "История и архивы"
+  history: "История и архивы",
+  space: "Космос и наблюдения"
 };
 const mapModes = {interactive:"Интерактивная",static:"Статичная"};
 const mapDialog = document.getElementById("map-reference");
